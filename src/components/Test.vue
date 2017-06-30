@@ -1,5 +1,7 @@
 <template>
   <div class="test">
+    <div class="" style="float:left">
+      <h2>模板语法</h2>
   <!-- html -->
   {{message}}
   <!-- 属性 -->
@@ -30,14 +32,84 @@
     <!-- {{ message | filterA('arg1', arg2) }}
       这里，message 是第一个参数，字符串 'arg1' 将传给过滤器作为第二个参数， arg2 表达式的值将被求值然后传给过滤器作为第三个参数。
      -->
+  </div>
+  <div class="" style="float:left">
+    <!--条件判断  -->
+   <h2>条件判断</h2>
+     <!-- v-if -->
+    <p v-if="see">看见</p>
+    <template v-if="ok">
+      <h4>菜鸟教程</h4>
+      <p>学的不仅是技术，更是梦想！</p>
+    </template>
+    <!-- v-else -->
+    <div class="" v-if="Math.random() > 0.5">
+       <p>显示</p>
+    </div>
+    <div class="" v-else>
+      <p>不显示</p>
+    </div>
+    <!-- v-else-if  -->
+    <div v-if="type === 'A'">  A </div>
+    <div v-else-if="type === 'B'">  B </div>
+    <div v-else-if="type === 'C'">  C </div>
+    <div v-else> Not A/B/C</div>
+    <!-- v-show  -->
+    <div class="" v-show="ok">显示v-show</div>
+  </div>
+  <div class="" style="float:left">
+     <h2>循环语句</h2>
+      <p>v-for:  item in items 形式</p>
+      <ul>
+        <li v-for="student in students">{{student.name}}</li>
+      </ul>
+      <p>v-for:val in object</p>
+      <ul>
+        <li v-for="val in object">{{val}}</li>
+      </ul>
+      <p>v-for：(value, key,index) in object </p>
+      <ul>
+        <li v-for="(val,key,index) in object">{{index}}:{{key}}:{{val}}</li>
+      </ul>
+      <p>v-for 循环整数</p>
+      <ul>
+        <li v-for="n in 2">{{n}}</li>
+      </ul>
+  </div>
+  <div class="" style="float:left">
+    <h2>vue计算属性</h2>
+    <p>计算属性： computed</p>
+    <p> computed vs methods</p>
+    <div class="">{{message}}</div>
+    <input type="text" name=""   v-model="message">
+    <div class="">使用计算属性{{reversedMessage}}</div>
+    <div class="">使用method方法{{reversedMessage2()}}</div>
 
-    <!--  -->
-    <!--  -->
-    <!--  -->
-    <!--  -->
-    <!--  -->
-    <!--  -->
+    <!-- 我们可以使用 methods 来替代 computed，效果上两个都是一样的，但是 computed 是基于
+    它的依赖缓存，只有相关依赖发生改变时才会重新取值。而使用 methods ，在重新渲染的时候，函数总会重新调用执行。 -->
+    <p>computed setter</p>
+    <!-- computed 属性默认只有 getter ，不过在需要时你也可以提供一个 setter ： -->
+  </div>
+  <div class="" style="float:left">
+    <h2>vue样式绑定</h2>
+    <p>v-bind:class 绑定类</p>
+    <div class="static" v-bind:class="{active:isActive,waring:error}">active</div>
+    <p>v-bind:class 绑定object类</p>
+    <div class="" v-bind:class="classObject">object</div>
+    <p>v-bind:class 绑定返回对象的计算属性</p>
+    <div class="" v-bind:class="classObject2">计算属性</div>
+    <p>v-bind:class 数组</p>
+    <div class="" v-bind:class="[activeClass,staticClass]">数组</div>
+    <p>v-bind:class 三元表达式</p>
+    <div class="" v-bind:class="[isActive ? classObject :'']">数组</div>
+    <p>v-bind:class 内连样式</p>
+    <div class="" v-bind:style="{color:activeColor,fontSize:fontSize}">内联样式</div>
+    <p>v-bind:class 内连样式对象</p>
+    <div class="" v-bind:style="styleObject">My Name Is TC</div>
+    <p>v-bind:class 内连样式数组</p>
+    <div class="" v-bind:style="[baseStyles, overridingStyles]">My Name Is TC</div>
 
+  </div>
   </div>
 </template>
 
@@ -54,7 +126,63 @@ export default {
       url:'https://www.baidu.com/?tn=62095104_oem_dg',
       value:'test----input',
       reseradc:"ABCD",
-      filter:'my name is tan chang'
+      filter:'my name is tan chang',
+      see:true,
+      type:"N",
+      index:'',
+      zero:'',
+      isActive:true,
+      error:true,
+      activeClass:"active",
+      staticClass:"static",
+      activeColor:"blue",
+      fontSize:"20px",
+      students:[
+        {name:'HanMeiMei'},
+        {name:'LiLei'},
+        {name:'Lucy'},
+      ],
+      object:{
+        name: 'TanChang',
+        sex: 'female',
+        age: '22'
+      },
+      classObject:{
+        active:true,
+        static:true
+      },
+      styleObject: {
+      color: 'green',
+      fontSize: '30px'
+    },
+    baseStyles: {
+      color: 'green',
+      fontSize: '30px'
+    },
+	overridingStyles: {
+      'font-weight': 'bold'
+    }
+    }
+  },
+  computed:{
+    reversedMessage:function(){
+      return this.message.split('').reverse().join('')
+    },
+    site:{
+      get:function(){
+        return this.people + ' ' + this.url
+      },
+      set:function (newValue) {
+          var names = newValue.split(' ')
+          this.people = names[0]
+          this.url = names[names.length - 1]
+        }
+    },
+    classObject2:function(){
+      return {
+        active: this.isActive && this.error,
+        waring: this.error && this.error.type === 'fatal',
+      }
     }
   },
   methods:{
@@ -63,7 +191,10 @@ export default {
     },
     reserClick:function(){
       this.reseradc = this.reseradc.split('').reverse().join('')
-    }
+    },
+    reversedMessage2:function(){
+      return this.message.split('').reverse().join('')
+    },
   },
   filters:{
     capitalizes: function (value) {
@@ -79,7 +210,22 @@ export default {
     }
   },
 }
+
 </script>
 
 <style lang="css">
+.static{
+  font-size:18px;
+  color:#fff;
+}
+.active{
+  width:50px;
+  height:50px;
+  background: pink;
+}
+.waring{
+  width:50px;
+  height:50px;
+  background: red;
+}
 </style>
