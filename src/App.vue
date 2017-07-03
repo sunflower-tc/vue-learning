@@ -1,18 +1,25 @@
 <template>
   <div id="app">
+    <h1>{{message}}</h1>
     <!-- <img src="./assets/logo.png"> -->
     <router-view></router-view>
     <test></test>
+
   </div>
 </template>
 
 <script>
- import test from './components/Test.vue'
+import test from './components/Test.vue'
 export default {
   name:'app',
   components: {
       test
+    },
+  data(){
+    return {
+      message:"learning  vue"
     }
+  }
 }
 </script>
 

@@ -110,6 +110,82 @@
     <div class="" v-bind:style="[baseStyles, overridingStyles]">My Name Is TC</div>
 
   </div>
+  <div class="" style="float:left">
+      <h2>vue事件处理器</h2>
+      <p>v-on:指令</p>
+      <div class="" v-on:click="couter+=1">增加1</div>
+      <div>这个按钮被点击{{couter}}</div>
+      <div class="" v-on:click="greet">点我打招呼</div>
+      <p> 阻止单击事件冒泡 </p>
+      <div class=""v-on:click="doParentThis"></div>
+      <button v-on:click.stop="doThis">点我</button>
+      <!-- 阻止单击事件冒泡 -->
+      <a v-on:click.stop="doThis"></a>
+      <!-- 提交事件不再重载页面 -->
+      <form v-on:submit.prevent="onSubmit"></form>
+      <!-- 修饰符可以串联  -->
+      <a v-on:click.stop.prevent="doThat"></a>
+      <!-- 只有修饰符 -->
+      <form v-on:submit.prevent></form>
+      <!-- 添加事件侦听器时使用事件捕获模式 -->
+      <div v-on:click.capture="doThis">...</div>
+      <!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 -->
+      <div v-on:click.self="doThat">...</div>
+
+      <!-- click 事件至少触发一次，2.1.4版本新增 -->
+      <a v-on:click.once="doThis"></a>
+      <p>键盘修饰符</p>
+      <input type="button" name="" value="enter回撤" v-on:keyup.enter="submit">
+  </div>
+   <div class="" style="float:left">
+    <h2>vue表单</h2>
+    <p>input元素</p>
+    <input type="text" name="" value="" placeholder="请输入用户名" v-model="username">
+    <div class="">{{username}}</div>
+    <p>textarea元素</p>
+    <textarea name="name" rows="8" cols="80" style="white-space:pre" v-model="textarea"></textarea>
+    <p>{{textarea}}</p>
+    <p>复选框</p>
+    <input type="checkbox" id="checkbox" v-model="checked">
+    <label for="checkbox">{{checked}}</label>
+    <p>多个复选框</p>
+    <input type="checkbox" id="runoob" value="Runoob" v-model="checkedNames">
+    <label for="runoob">Runoob</label>
+    <input type="checkbox" id="google" value="Google" v-model="checkedNames">
+    <label for="google">Google</label>
+    <input type="checkbox" id="taobao" value="Taobao" v-model="checkedNames">
+    <label for="taobao">taobao</label>
+   <br>
+   <span>选择的值为: {{ checkedNames }}</span>
+   <p>单选框</p>
+   <input type="radio" name="" value="male" id="male" group="sex" v-model="sexValue">
+   <label for="male">男</label>
+   <input type="radio" name="" value="female" id="male" group="sex" v-model="sexValue">
+   <label for="female">女</label>
+   <br>
+   <span>选择的值为: {{ sexValue }}</span>
+   <p>select列表</p>
+   <select class="" name="" v-model="selected" name="fruit">
+      <option value="">请选择一个你喜欢的水果</option>
+      <option value="banana">banana</option>
+      <option value="apple">apple</option>
+      <option value="orange">orange</option>
+   </select>
+   <span>你喜欢的水果是{{selected}}</span>
+   <p>修饰符</p>
+   <!-- 在 "change" 而不是 "input" 事件中更新 -->
+   <input v-model.lazy="msg" >
+   <input v-model.number="age" type="number">
+   <input v-model.trim="msg">
+   </div>
+    <div class="" style="float:left">
+      <h2>vue自定义组件</h2>
+      <p>Vue.directive选项注册全局</p>
+      <p>directives选项注册局部</p>
+      <input type="text" name="" value="" v-focus>
+      <p>钩子</p>
+      
+    </div>
   </div>
 </template>
 
@@ -118,6 +194,13 @@ export default {
   name:'test',
   data(){
     return {
+      msg:"",
+      age:"",
+      selected:'',
+      sexValue:"",
+      checked:false,
+      checkedNames:[],
+      couter:0,
       message:"learning vue",
       class1:true,
       ok:true,
@@ -161,7 +244,9 @@ export default {
     },
 	overridingStyles: {
       'font-weight': 'bold'
-    }
+    },
+    username:"",
+    textarea:""
     }
   },
   computed:{
@@ -195,6 +280,18 @@ export default {
     reversedMessage2:function(){
       return this.message.split('').reverse().join('')
     },
+    greet:function(){
+      alert(this.couter);
+    },
+    doParentThis:function(){
+      alert('parent');
+    },
+    doThis:function(){
+     alert('child');
+   },
+   submit:function(){
+     alert('enter')
+   }
   },
   filters:{
     capitalizes: function (value) {
@@ -209,6 +306,16 @@ export default {
       return " "+val+"filterB"
     }
   },
+  directives: {
+   // 注册一个局部的自定义指令 v-focus
+   focus: {
+     // 指令的定义
+     inserted: function (el) {
+       // 聚焦元素
+       el.focus()
+     }
+   }
+ }
 }
 
 </script>
